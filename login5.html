@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>My Project</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma; }
+
+  body {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #fff;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ========== LOGIN PAGE ========== */
+  #loginPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("C:/Users/ELCOT/Downloads/login image.jpg") center/cover no-repeat;
+    backdrop-filter: blur(3px);
+  }
+  .login-container {
+    background: rgba(0,0,0,0.7);
+    padding: 40px;
+    border-radius: 10px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  }
+  .login-container h1 {
+    margin-bottom: 20px;
+    color: #00bcd4;
+  }
+  .login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+  }
+  .login-container button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    background: #00bcd4;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .login-container button:hover {
+    background: #0097a7;
+  }
+
+  /* ========== MAIN PAGE ========== */
+  #homePage { display: none; height: 100vh; display: flex; overflow: hidden; }
+
+  .sidebar {
+    width: 220px;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+  }
+  .sidebar h2 {
+    text-align: center;
+    margin-bottom: 10px;
+    color: #00bcd4;
+  }
+  .sidebar-menu a {
+    display: block;
+    padding: 12px 20px;
+    color: #ddd;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+  .sidebar-menu a:hover, .sidebar-menu a.active {
+    background: #00bcd4;
+    color: #fff;
+    border-radius: 5px;
+  }
+
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+  }
+  section { display: none; }
+  section.active { display: block; }
+
+  /* Collapsible */
+  .level, .category {
+    background: rgba(255,255,255,0.1);
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .level:hover, .category:hover { background: rgba(255,255,255,0.2); }
+  .category-list, .program-list { display: none; padding-left: 15px; margin-top: 5px; }
+  .category.active .category-list, .level.active .program-list { display: block; }
+
+  .program-item {
+    margin: 6px 0;
+    background: rgba(255,255,255,0.05);
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .program-item:hover { background: rgba(255,255,255,0.2); }
+
+  /* Modal */
+  .modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    display: none; background: rgba(0,0,0,0.7);
+    justify-content: center; align-items: center;
+  }
+  .modal.show { display: flex; }
+  .modal-content {
+    background: #222; padding: 25px; border-radius: 10px; text-align: center; width: 300px;
+  }
+  .modal-content button {
+    margin: 10px; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s;
+  }
+  .btn-cancel { background: #555; color: #fff; }
+  .btn-logout { background: #e91e63; color: #fff; }
+
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-thumb { background: #00bcd4; border-radius: 5px; }
+</style>
+</head>
+
+<body>
+  <!-- ========== LOGIN PAGE ========== -->
+  <div id="loginPage">
+    <div class="login-container">
+      <h1>Login to CodePlay</h1>
+      <input type="text" id="username" placeholder="Enter Username" />
+      <input type="password" id="password" placeholder="Enter Password" />
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+
+  <!-- ========== MAIN PAGE ========== -->
+  <div id="homePage">
+    <div class="sidebar">
+      <h2>My Project</h2>
+      <div class="sidebar-menu">
+        <a href="#" class="active" onclick="showSection('home', event)">🏠 Home</a>
+        <a href="#" onclick="showSection('gaming', event)">🎮 Gaming</a>
+        <a href="#" onclick="showSection('coding', event)">💻 Coding</a>
+        <a href="#" onclick="showSection('sheet', event)">📄 Sheet</a>
+        <a href="#" onclick="logout()">🚪 Logout</a>
+      </div>
+    </div>
+
+    <div class="main">
+      <!-- Home -->
+      <section id="homeSection" class="active">
+        <h1>Welcome to CodePlay Learning Hub!</h1>
+        <p>Choose from Gaming, Coding, or Sheets to start your interactive learning journey 🚀</p>
+      </section>
+
+      <!-- Gaming -->
+      <section id="gamingSection">
+        <h1>🎮 Gaming Section</h1>
+
+        <div class="level" onclick="toggleLevel(this)">
+          <h2>Basic</h2>
+
+          <div class="category" onclick="toggleCategory(this)">
+            <h3>Number Programs</h3>
+            <div class="category-list">
+              <div class="program-item">Check Armstrong Number</div>
+              <div class="program-item">Check Prime Number</div>
+              <div class="program-item">Factorial Number</div>
+              <div class="program-item">Perfect Number Check</div>
+            </div>
+          </div>
+
+          <div class="category" onclick="toggleCategory(this)">
+            <h3>Series Programs</h3>
+            <div class="category-list">
+              <div class="program-item">Fibonacci</div>
+              <div class="program-item">Tribonacci</div>
+              <div class="program-item">Arithmetic progression</div>
+              <div class="program-item">Pell Number</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level" onclick="toggleLevel(this)">
+          <h2>Intermediate</h2>
+
+          <div class="category" onclick="toggleCategory(this)">
+            <h3>Digits and Patterns</h3>
+            <div class="category-list">
+              <div class="program-item">Reverse a number</div>
+              <div class="program-item">Palindrome number</div>
+              <div class="program-item">Sum of digits</div>
+              <div class="program-item">Count of digits</div>
+            </div>
+          </div>
+
+          <div class="category" onclick="toggleCategory(this)">
+            <h3>Mathematical Programs</h3>
+            <div class="category-list">
+              <div class="program-item">GCD & LCM</div>
+              <div class="program-item">Power of a number</div>
+              <div class="program-item">Decimal to binary conversion</div>
+            </div>
+          </div>
+
+          <div class="category" onclick="toggleCategory(this)">
+            <h3>Challenge</h3>
+            <div class="category-list">
+              <div class="program-item">Guess the number</div>
+              <div class="program-item">Memory challenger: Recall Fibonacci sequence</div>
+              <div class="program-item">Code puzzle: Find missing part of Armstrong logic</div>
+              <div class="program-item">Debugging challenge: Fix incorrect prime checker</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level" onclick="toggleLevel(this)">
+          <h2>Advance</h2>
+          <div class="category" onclick="toggleCategory(this)">
+            <h3>Array and String Based</h3>
+            <div class="category-list">
+              <div class="program-item">Anagram checker</div>
+              <div class="program-item">Frequency of character in string</div>
+              <div class="program-item">Find largest & smallest element in array</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Coding -->
+      <section id="codingSection">
+        <h1>💻 Coding Section</h1>
+        <p>Explore coding tutorials and examples here soon!</p>
+      </section>
+
+      <!-- Sheet -->
+      <section id="sheetSection">
+        <h1>📄 Sheet Section</h1>
+        <p>Access practice sheets and progress tracking here.</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- Logout Modal -->
+  <div class="modal" id="logoutModal">
+    <div class="modal-content">
+      <p>Are you sure you want to logout?</p>
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-logout" onclick="confirmLogout()">Logout</button>
+    </div>
+  </div>
+
+<script>
+  function login() {
+    const user = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    if (user && pass) {
+      document.getElementById('loginPage').style.display = 'none';
+      document.getElementById('homePage').style.display = 'flex';
+    } else {
+      alert("Please enter both username and password!");
+    }
+  }
+
+  function showSection(section, event) {
+    document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(section + 'Section').classList.add('active');
+  }
+
+  function toggleLevel(el) {
+    el.classList.toggle('active');
+    const cats = el.querySelectorAll('.category');
+    cats.forEach(c => c.style.display = el.classList.contains('active') ? 'block' : 'none');
+  }
+
+  function toggleCategory(el) {
+    el.classList.toggle('active');
+    event.stopPropagation();
+  }
+
+  function logout() {
+    document.getElementById('logoutModal').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('logoutModal').classList.remove('show');
+  }
+
+  function confirmLogout() {
+    document.getElementById('logoutModal').classList.remove('show');
+    document.getElementById('homePage').style.display = 'none';
+    document.getElementById('loginPage').style.display = 'flex';
+    document.getElementById('username').value = '';
+    document.getElementById('password').value = '';
+  }
+</script>
+</body>
+</html>
