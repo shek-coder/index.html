@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>CodePlay - Learning Platform</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma; }
+  body {
+    background: 
+      linear-gradient(135deg, rgba(0, 0, 0, 0.85), rgba(20, 20, 50, 0.85)),
+      url('https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=1920') 
+      center/cover no-repeat fixed;
+    color: #fff;
+    min-height: 100vh;
+  }
+
+  #loginPage, #homePage { min-height: 100vh; display:flex; justify-content:center; align-items:center; }
+  #loginPage { 
+    background: 
+      linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(20, 20, 40, 0.8)),
+      url('https://c8.alamy.com/comp/3BPRCFW/game-start-glowing-text-effect-with-computer-code-in-background-3BPRCFW.jpg') 
+      center/cover no-repeat;
+    backdrop-filter: blur(2px);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  #loginPage::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(0,188,212,0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: gridMove 20s linear infinite;
+  }
+  
+  @keyframes gridMove {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+  
+  .login-container {
+    background: rgba(0,0,0,0.75);
+    padding: 28px; border-radius: 10px; width: 360px; text-align: center; 
+    box-shadow: 0 0 30px rgba(0,188,212,0.3);
+    position: relative;
+    z-index: 10;
+    border: 1px solid rgba(0,188,212,0.2);
+  }
+  .login-container h1 { margin-bottom: 14px; color: #00bcd4; text-shadow: 0 0 10px rgba(0,188,212,0.5); }
+  .login-container input, .login-container select {
+    width: 100%; padding: 10px; margin: 8px 0; border: none; border-radius: 6px;
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid rgba(0,188,212,0.3);
+  }
+  .login-container input::placeholder {
+    color: rgba(255,255,255,0.5);
+  }
+  .login-container button { 
+    width: 100%; padding: 10px; margin-top: 12px; border: none; 
+    border-radius: 6px; background:#00bcd4; color:#000; cursor:pointer; 
+    font-weight: bold; transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(0,188,212,0.4);
+  }
+  .login-container button:hover { 
+    background:#00a3b8; 
+    transform: scale(1.02); 
+    box-shadow: 0 6px 20px rgba(0,188,212,0.6);
+  }
+  
+  .verification-number {
+    background: rgba(0,188,212,0.2);
+    border: 2px solid rgba(0,188,212,0.5);
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: 0.3s;
+    user-select: none;
+  }
+  .verification-number:hover {
+    background: rgba(0,188,212,0.4);
+    transform: scale(1.05);
+  }
+  .verification-number.selected {
+    background: #00bcd4;
+    color: #000;
+    border-color: #00bcd4;
+  }
+  
+  .link { 
+    color:#b3f0ff; cursor:pointer; text-decoration:underline; 
+    font-size:0.95rem; margin-top:8px; display:inline-block; 
+    transition: 0.3s;
+  }
+  .link:hover { color:#fff; }
+
+  #homePage { display:none; height:100vh; overflow:hidden; }
+  .sidebar { width:250px; background: rgba(0,0,0,0.6); padding-top:20px; display:flex; flex-direction:column; overflow-y:auto; }
+  .sidebar h2 { text-align:center; color:#00bcd4; margin-bottom:10px; }
+  .sidebar-menu a { 
+    display:block; padding:12px 20px; color:#ddd; text-decoration:none; 
+    transition:0.2s; cursor:pointer; user-select: none;
+  }
+  .sidebar-menu a:hover { background:rgba(255,255,255,0.1); }
+  .sidebar-menu a.active { background:#00bcd4; color:#000; border-radius:5px; }
+  
+  .gaming-levels {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+  }
+  .gaming-levels.show { max-height: 500px; }
+  
+  .level-item {
+    padding: 10px 20px 10px 35px;
+    color: #aaa;
+    cursor: pointer;
+    transition: 0.2s;
+    font-size: 0.95rem;
+    user-select: none;
+  }
+  .level-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+  .level-item.active { background: rgba(0,188,212,0.3); color: #00bcd4; border-left: 3px solid #00bcd4; }
+  
+  .main { flex:1; overflow-y:auto; padding:20px; }
+
+  section { display:none; transition: all 0.3s ease; }
+  section.active { display:block; }
+
+  .category {
+    background: rgba(255,255,255,0.04);
+    margin:10px 0; padding:15px;
+    border-radius:8px;
+    cursor: pointer;
+    overflow:hidden;
+    transition: 0.2s;
+  }
+  .category:hover { background: rgba(255,255,255,0.06); }
+  .category h3 {
+    color: #00bcd4;
+    margin-bottom: 8px;
+    font-size: 1.2rem;
+    user-select: none;
+  }
+  .category h3::after {
+    content: " ▼";
+    font-size: 0.9rem;
+    color: #00bcd4;
+  }
+  .category.active h3::after {
+    content: " ▲";
+  }
+
+  .category-list {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    margin-top: 0;
+  }
+  .category.active .category-list {
+    max-height: 500px;
+    margin-top: 12px;
+  }
+
+  .program-item {
+    margin:6px 0; padding:10px;
+    border-radius:5px; background: rgba(255,255,255,0.08);
+    cursor:pointer; transition:0.2s;
+  }
+  .program-item:hover { background: rgba(0,188,212,0.3); transform: translateX(5px); }
+
+  .modal { position:fixed; inset:0; display:none; background:rgba(0,0,0,0.7); justify-content:center; align-items:center; z-index: 1000; }
+  .modal.show { display:flex; }
+  .modal-content { background:#222; padding:22px; border-radius:10px; width:340px; text-align:center; }
+  .modal-content button { 
+    margin:8px; padding:8px 14px; border-radius:6px; border:none; 
+    cursor:pointer; font-weight: bold; transition: 0.3s;
+  }
+  .modal-content .btn-cancel { background:#666; color:#fff; }
+  .modal-content .btn-cancel:hover { background:#555; }
+  .modal-content .btn-logout { background:#00bcd4; color:#000; }
+  .modal-content .btn-logout:hover { background:#00a3b8; }
+
+  ::-webkit-scrollbar { width:8px; }
+  ::-webkit-scrollbar-thumb { background:#00bcd4; border-radius:5px; }
+</style>
+</head>
+<body>
+
+<!-- LOGIN / REGISTER PAGE -->
+<div id="loginPage">
+  <div class="login-container" id="authBox">
+    <h1 id="authTitle">Login to CodePlay</h1>
+
+    <!-- LOGIN FORM -->
+    <div id="loginForm">
+      <input type="email" id="loginEmail" placeholder="Enter email" />
+      <div style="position:relative;">
+        <input type="password" id="loginPassword" placeholder="Enter password" style="padding-right:40px;" />
+        <span onclick="togglePassword('loginPassword')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:1.2rem;">👁️</span>
+      </div>
+      <button id="btnLogin">Login</button>
+      <div style="margin-top:8px;">
+        <span class="link" id="showRegister">Register</span> •
+        <span class="link" id="showReset">Forgot password</span>
+      </div>
+    </div>
+
+    <!-- REGISTER FORM -->
+    <div id="registerForm" style="display:none;">
+      <input type="text" id="regFirstName" placeholder="First Name" />
+      <input type="text" id="regLastName" placeholder="Last Name" />
+      <input type="email" id="regEmail" placeholder="Email" />
+      <div style="position:relative;">
+        <input type="password" id="regPassword" placeholder="Password" style="padding-right:40px;" />
+        <span onclick="togglePassword('regPassword')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:1.2rem;">👁️</span>
+      </div>
+      <input type="tel" id="regPhone" placeholder="Mobile (optional, e.g. +919876543210)" />
+      <button id="btnRegister">Register</button>
+      <div style="margin-top:8px;">
+        <span class="link" id="showLoginFromReg">Back to Login</span>
+      </div>
+    </div>
+
+    <!-- RESET PASSWORD FORM -->
+    <div id="resetForm" style="display:none;">
+      <input type="email" id="resetEmail" placeholder="Enter your email" />
+      <button id="btnSendVerification">Send Verification</button>
+      
+      <div id="verificationSection" style="display:none; margin-top:15px;">
+        <p style="color:#00bcd4; margin-bottom:10px; font-size:0.95rem;">Select the number that was sent to your email:</p>
+        <div id="verificationOptions" style="display:flex; justify-content:space-around; margin-bottom:15px;">
+          <!-- Numbers will be generated here -->
+        </div>
+        
+        <div id="newPasswordSection" style="display:none;">
+          <div style="position:relative; margin-top:10px;">
+            <input type="password" id="resetNewPassword" placeholder="New password" style="padding-right:40px;" />
+            <span onclick="togglePassword('resetNewPassword')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:1.2rem;">👁️</span>
+          </div>
+          <div style="position:relative;">
+            <input type="password" id="resetConfirmPassword" placeholder="Confirm password" style="padding-right:40px;" />
+            <span onclick="togglePassword('resetConfirmPassword')" style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer; font-size:1.2rem;">👁️</span>
+          </div>
+          <button id="btnResetPassword">Reset Password</button>
+        </div>
+      </div>
+      
+      <div style="margin-top:8px;">
+        <span class="link" id="showLoginFromReset">Back to Login</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN PAGE -->
+<div id="homePage">
+  <div class="sidebar">
+    <h2>CodePlay</h2>
+    <div class="sidebar-menu">
+      <a class="active" data-section="home">🏠 Home</a>
+      <a data-section="gaming">🎮 Gaming</a>
+      <div class="gaming-levels" id="gamingLevels">
+        <div class="level-item" data-level="basic">Basic</div>
+        <div class="level-item" data-level="intermediate">Intermediate</div>
+        <div class="level-item" data-level="advance">Advance</div>
+      </div>
+      <a data-section="coding">💻 Coding</a>
+      <a data-section="cheatsheet">📄 Cheat Sheets</a>
+      <a id="btnLogout">🚪 Logout</a>
+    </div>
+  </div>
+
+  <div class="main">
+    <section id="homeSection" class="active">
+      <h1>Welcome to CodePlay Learning Hub!</h1>
+      <p id="welcomeText">Choose from Gaming, Coding, or Cheat Sheets to start your interactive learning journey 🚀</p>
+    </section>
+
+    <section id="gamingSection">
+      <h1>🎮 Gaming Section</h1>
+      <p style="color:#aaa; margin-bottom:20px;">Select a level from the sidebar to view programs</p>
+    </section>
+
+    <!-- BASIC LEVEL -->
+    <section id="basicSection">
+      <h1>🎮 Basic Level</h1>
+
+      <div class="category">
+        <h3>Number Programs</h3>
+        <div class="category-list">
+          <div class="program-item">Check Armstrong Number</div>
+          <div class="program-item">Check Prime Number</div>
+          <div class="program-item">Factorial Number</div>
+          <div class="program-item">Perfect Number Check</div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>Series Programs</h3>
+        <div class="category-list">
+          <div class="program-item">Fibonacci</div>
+          <div class="program-item">Tribonacci</div>
+          <div class="program-item">Arithmetic progression</div>
+          <div class="program-item">Pell Number</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INTERMEDIATE LEVEL -->
+    <section id="intermediateSection">
+      <h1>🎮 Intermediate Level</h1>
+
+      <div class="category">
+        <h3>Digits and Patterns</h3>
+        <div class="category-list">
+          <div class="program-item">Reverse a number</div>
+          <div class="program-item">Palindrome number</div>
+          <div class="program-item">Sum of digits</div>
+          <div class="program-item">Count of digits</div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>Mathematical Programs</h3>
+        <div class="category-list">
+          <div class="program-item">GCD & LCM</div>
+          <div class="program-item">Power of a number</div>
+          <div class="program-item">Decimal to binary conversion</div>
+        </div>
+      </div>
+
+      <div class="category">
+        <h3>Challenge</h3>
+        <div class="category-list">
+          <div class="program-item">Guess the number</div>
+          <div class="program-item">Memory challenger</div>
+          <div class="program-item">Code puzzle</div>
+          <div class="program-item">Debugging challenge</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ADVANCE LEVEL -->
+    <section id="advanceSection">
+      <h1>🎮 Advance Level</h1>
+
+      <div class="category">
+        <h3>Array and String Based</h3>
+        <div class="category-list">
+          <div class="program-item">Anagram checker</div>
+          <div class="program-item">Character frequency</div>
+          <div class="program-item">Largest & smallest in array</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="codingSection">
+      <h1>💻 Coding Section</h1>
+      <p>Explore coding tutorials and examples here soon!</p>
+    </section>
+
+    <section id="cheatsheetSection">
+      <h1>📄 Cheat Sheets Section</h1>
+      <p>Access quick reference cheat sheets and programming guides here.</p>
+    </section>
+  </div>
+</div>
+
+<!-- LOGOUT MODAL -->
+<div class="modal" id="logoutModal">
+  <div class="modal-content">
+    <p>Are you sure you want to logout?</p>
+    <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+    <button class="btn-logout" onclick="confirmLogout()">Logout</button>
+  </div>
+</div>
+
+<script>
+function readUsers() { return JSON.parse(localStorage.getItem('cp_users') || '{}'); }
+function writeUsers(u) { localStorage.setItem('cp_users', JSON.stringify(u)); }
+
+const loginPage = document.getElementById('loginPage');
+const homePage = document.getElementById('homePage');
+const authTitle = document.getElementById('authTitle');
+let correctVerificationNumber = null;
+
+// Password Toggle Function
+function togglePassword(fieldId) {
+  const field = document.getElementById(fieldId);
+  field.type = field.type === 'password' ? 'text' : 'password';
+}
+
+// Auth Navigation
+document.getElementById('showRegister').addEventListener('click', () => showAuthPane('register'));
+document.getElementById('showLoginFromReg').addEventListener('click', () => showAuthPane('login'));
+document.getElementById('showReset').addEventListener('click', () => showAuthPane('reset'));
+document.getElementById('showLoginFromReset').addEventListener('click', () => showAuthPane('login'));
+
+function showAuthPane(which) {
+  authTitle.innerText = which === 'login' ? 'Login to CodePlay' :
+                        which === 'register' ? 'Register new account' :
+                        'Forgot password';
+  document.getElementById('loginForm').style.display = which === 'login' ? 'block' : 'none';
+  document.getElementById('registerForm').style.display = which === 'register' ? 'block' : 'none';
+  document.getElementById('resetForm').style.display = which === 'reset' ? 'block' : 'none';
+  
+  // Reset verification section when switching
+  if (which === 'reset') {
+    document.getElementById('verificationSection').style.display = 'none';
+    document.getElementById('newPasswordSection').style.display = 'none';
+    document.getElementById('resetEmail').value = '';
+    correctVerificationNumber = null;
+  }
+}
+
+// Login
+document.getElementById('btnLogin').addEventListener('click', () => {
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPassword').value;
+  if (!email || !pass) return alert('Enter email & password');
+  const users = readUsers();
+  if (!users[email]) return alert('No account found for this email.');
+  if (users[email].password !== pass) return alert('Incorrect password.');
+  sessionStorage.setItem('cp_logged', email);
+  openHome(users[email]);
+});
+
+// Register
+document.getElementById('btnRegister').addEventListener('click', () => {
+  const firstName = document.getElementById('regFirstName').value.trim();
+  const lastName = document.getElementById('regLastName').value.trim();
+  const email = document.getElementById('regEmail').value.trim().toLowerCase();
+  const pass = document.getElementById('regPassword').value;
+  const phone = document.getElementById('regPhone').value.trim();
+  
+  if (!firstName || !lastName || !email || !pass) return alert('First name, last name, email and password are required.');
+  if (phone && !/^\+?\d{7,15}$/.test(phone)) return alert('Enter valid mobile with country code, e.g. +919876543210');
+  
+  const users = readUsers();
+  if (users[email]) return alert('Account already exists.');
+  users[email] = { firstName, lastName, email, password: pass, phone: phone || '' };
+  writeUsers(users);
+  alert('Registered successfully!');
+  showAuthPane('login');
+});
+
+// Send Verification
+document.getElementById('btnSendVerification').addEventListener('click', () => {
+  const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+  if (!email) return alert('Please enter your email.');
+  
+  const users = readUsers();
+  if (!users[email]) return alert('No account found for this email.');
+  
+  // Generate 3 random numbers (100-999)
+  const numbers = [];
+  correctVerificationNumber = Math.floor(Math.random() * 900) + 100;
+  numbers.push(correctVerificationNumber);
+  
+  while (numbers.length < 3) {
+    const num = Math.floor(Math.random() * 900) + 100;
+    if (!numbers.includes(num)) numbers.push(num);
+  }
+  
+  // Shuffle array
+  numbers.sort(() => Math.random() - 0.5);
+  
+  // Display verification options
+  const optionsDiv = document.getElementById('verificationOptions');
+  optionsDiv.innerHTML = '';
+  numbers.forEach(num => {
+    const btn = document.createElement('div');
+    btn.className = 'verification-number';
+    btn.textContent = num;
+    btn.onclick = () => selectVerificationNumber(num);
+    optionsDiv.appendChild(btn);
+  });
+  
+  document.getElementById('verificationSection').style.display = 'block';
+  alert(`Verification code sent to ${email}\n\nFor demo: The correct number is ${correctVerificationNumber}`);
+});
+
+function selectVerificationNumber(selectedNum) {
+  document.querySelectorAll('.verification-number').forEach(btn => {
+    btn.classList.remove('selected');
+  });
+  event.target.classList.add('selected');
+  
+  if (selectedNum === correctVerificationNumber) {
+    document.getElementById('newPasswordSection').style.display = 'block';
+    alert('Correct! Now set your new password.');
+  } else {
+    alert('Incorrect number. Please try again.');
+    document.getElementById('newPasswordSection').style.display = 'none';
+  }
+}
+
+// Reset Password
+document.getElementById('btnResetPassword').addEventListener('click', () => {
+  const email = document.getElementById('resetEmail').value.trim().toLowerCase();
+  const newPass = document.getElementById('resetNewPassword').value;
+  const confirmPass = document.getElementById('resetConfirmPassword').value;
+  
+  if (!newPass || !confirmPass) return alert('Please fill all password fields.');
+  if (newPass !== confirmPass) return alert('Passwords do not match.');
+  
+  const users = readUsers();
+  users[email].password = newPass;
+  writeUsers(users);
+  
+  alert('Password reset successful!');
+  document.getElementById('resetEmail').value = '';
+  document.getElementById('resetNewPassword').value = '';
+  document.getElementById('resetConfirmPassword').value = '';
+  showAuthPane('login');
+});
+
+function openHome(user) {
+  loginPage.style.display = 'none';
+  homePage.style.display = 'flex';
+  const displayName = user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : user.email;
+  document.getElementById('welcomeText').innerText = `Welcome ${displayName}! Choose a section to begin.`;
+}
+
+// Sidebar Navigation
+document.querySelectorAll('.sidebar-menu a[data-section]').forEach(link => {
+  link.addEventListener('click', function(e) {
+    e.preventDefault();
+    const section = this.getAttribute('data-section');
+    
+    if (section === 'gaming') {
+      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+      this.classList.add('active');
+      document.getElementById('gamingLevels').classList.toggle('show');
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById('gamingSection').classList.add('active');
+    } else {
+      document.querySelectorAll('.sidebar-menu a').forEach(a => a.classList.remove('active'));
+      document.querySelectorAll('.level-item').forEach(l => l.classList.remove('active'));
+      this.classList.add('active');
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(section + 'Section').classList.add('active');
+      document.getElementById('gamingLevels').classList.remove('show');
+    }
+  });
+});
+
+// Level Navigation
+document.querySelectorAll('.level-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const level = this.getAttribute('data-level');
+    document.querySelectorAll('.level-item').forEach(l => l.classList.remove('active'));
+    this.classList.add('active');
+    document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+    document.getElementById(level + 'Section').classList.add('active');
+  });
+});
+
+// Category Toggle
+document.querySelectorAll('.category').forEach(category => {
+  category.addEventListener('click', function() {
+    this.classList.toggle('active');
+  });
+});
+
+// Logout
+document.getElementById('btnLogout').addEventListener('click', () => {
+  document.getElementById('logoutModal').classList.add('show');
+});
+
+function closeModal() { 
+  document.getElementById('logoutModal').classList.remove('show'); 
+}
+
+function confirmLogout() {
+  sessionStorage.removeItem('cp_logged');
+  closeModal();
+  homePage.style.display = 'none';
+  loginPage.style.display = 'flex';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPassword').value = '';
+}
+
+// Auto login if session exists
+window.addEventListener('DOMContentLoaded', () => {
+  const email = sessionStorage.getItem('cp_logged');
+  if (email) {
+    const user = readUsers()[email];
+    if (user) openHome(user);
+  }
+});
+</script>
+
+</body>
+</html>
