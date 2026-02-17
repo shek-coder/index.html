@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TNPSC Group 4 Preparation</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#2563eb;--primary-dark:#1e40af;--secondary:#f59e0b;--success:#10b981;--danger:#ef4444;--bg-light:#f8fafc;--bg-white:#fff;--text-dark:#1f2937;--text-gray:#6b7280;--border:#e5e7eb;--sh:0 4px 6px rgba(0,0,0,.1);--shl:0 10px 15px rgba(0,0,0,.1)}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg-light);color:var(--text-dark)}
+.container{max-width:100%;margin:0 auto;padding:0 15px}
+nav{background:#fff;box-shadow:var(--sh);position:sticky;top:0;z-index:100}
+nav .container{display:flex;justify-content:space-between;align-items:center;padding:15px}
+.app-logo{font-size:20px;font-weight:700;color:var(--primary)}
+.nav-btn{padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px}
+.nav-btn.logout{background:var(--danger)}
+.page{display:none}.page.active{display:block}
+
+/* HOME */
+.home-wrap{min-height:calc(100vh - 70px);display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#667eea,#764ba2);padding:40px 20px}
+.home-card{background:#fff;padding:60px 40px;border-radius:12px;text-align:center;max-width:480px;box-shadow:var(--shl)}
+.home-card h1{color:var(--primary);font-size:30px;margin-bottom:16px}
+.home-card p{color:var(--text-gray);margin-bottom:28px}
+.start-btn{background:linear-gradient(135deg,var(--primary),var(--secondary));color:#fff;border:none;padding:14px 36px;font-size:16px;font-weight:600;border-radius:8px;cursor:pointer;width:100%;max-width:280px}
+
+/* DASHBOARD */
+.db-header{background:var(--primary);color:#fff;padding:28px 0;margin-bottom:20px}
+.db-header h1{font-size:26px;margin-bottom:6px}
+.db-header p{font-size:14px;opacity:.9}
+.h-sections{display:flex;gap:15px;overflow-x:auto;padding:10px 0 28px}
+.h-sections::-webkit-scrollbar{height:7px}
+.h-sections::-webkit-scrollbar-thumb{background:var(--primary);border-radius:4px}
+.sec{background:#fff;padding:22px;border-radius:8px;box-shadow:var(--sh);min-width:340px;max-width:340px;flex-shrink:0}
+.sec h2{font-size:16px;color:var(--primary);margin-bottom:13px;border-bottom:3px solid var(--secondary);padding-bottom:7px}
+.sec p{font-size:12px;color:var(--text-gray);margin-bottom:10px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:10px}
+.pi{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:13px 8px;border-radius:6px;text-align:center;cursor:pointer;transition:.3s}
+.pi:hover{transform:translateY(-2px)}
+.pi .yr{font-size:15px;font-weight:700}.pi .ac{font-size:10px;opacity:.9}
+.ogrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:13px}
+.oc{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:13px;border-radius:6px;text-align:center}
+.oc .lbl{font-size:9px;opacity:.9;margin-bottom:4px;text-transform:uppercase}
+.oc .val{font-size:17px;font-weight:700}
+.acc{margin-top:10px}
+.ai{border:1px solid var(--border);margin-bottom:7px;border-radius:6px;overflow:hidden}
+.ah{background:var(--bg-light);padding:9px 12px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:12px}
+.ai.open .ah{background:var(--primary);color:#fff}
+.ac-body{max-height:0;overflow:hidden;transition:max-height .3s}
+.ai.open .ac-body{max-height:300px;overflow-y:auto}
+.ac-body ul{padding:10px 14px;list-style:none}
+.ac-body li{padding:4px 0;color:var(--text-gray);font-size:11px;border-bottom:1px solid var(--border)}
+.ei{background:var(--bg-light);padding:9px;margin-bottom:7px;border-radius:6px;border-left:3px solid var(--success);font-size:11px}
+.ei strong{color:var(--primary)}
+.ti-grid{background:var(--bg-light);padding:10px;border-radius:6px;margin-bottom:12px;display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.ti-item{text-align:center}
+.ti-item .tl{color:var(--text-gray);font-size:9px;margin-bottom:2px}
+.ti-item .tv{font-size:15px;font-weight:700;color:var(--primary)}
+.stbtn{background:linear-gradient(135deg,var(--success),#059669);color:#fff;border:none;padding:10px;border-radius:6px;cursor:pointer;font-weight:700;font-size:13px;width:100%}
+
+/* GAME */
+#gamePage{background:#0f172a;min-height:100vh}
+.ss-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100vh - 70px);padding:30px 20px}
+.ss-wrap h2{color:#fff;font-size:26px;font-weight:800;margin-bottom:8px;text-align:center}
+.ss-wrap>p{color:#94a3b8;margin-bottom:36px;text-align:center;font-size:14px}
+.s-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;max-width:660px;width:100%}
+.s-card{background:linear-gradient(135deg,#1e293b,#293548);border:2px solid #334155;border-radius:16px;padding:28px 18px;text-align:center;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.s-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:16px 16px 0 0}
+.s-card.tamil::before{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+.s-card.english::before{background:linear-gradient(90deg,#3b82f6,#8b5cf6)}
+.s-card.gs::before{background:linear-gradient(90deg,#10b981,#14b8a6)}
+.s-card.aptitude::before{background:linear-gradient(90deg,#f97316,#f59e0b)}
+.s-card:hover{transform:translateY(-6px);border-color:#60a5fa;box-shadow:0 20px 40px rgba(96,165,250,.2)}
+.s-card .si{font-size:42px;margin-bottom:10px}
+.s-card .sn{color:#fff;font-size:16px;font-weight:700;margin-bottom:5px}
+.s-card .sd{color:#94a3b8;font-size:11px}
+.s-card .sb{display:inline-block;background:rgba(96,165,250,.15);color:#60a5fa;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;margin-top:7px}
+.g-screen{display:none;flex-direction:column;min-height:calc(100vh - 70px);padding:18px}
+.g-screen.on{display:flex}
+.g-topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px}
+.g-badge{background:#1e293b;border-radius:10px;padding:7px 14px;color:#fff;font-weight:700;font-size:14px}
+.g-timer-box{background:#1e293b;border-radius:10px;padding:7px 18px;text-align:center}
+.g-tlbl{color:#94a3b8;font-size:9px;text-transform:uppercase;letter-spacing:1px}
+.g-tval{color:#f87171;font-size:20px;font-weight:800;font-family:monospace}
+.g-tval.warn{animation:blink .8s infinite}
+@keyframes blink{0%,100%{color:#f87171}50%{color:#fff}}
+.g-quit{background:#1e293b;border:1px solid #334155;color:#94a3b8;padding:7px 13px;border-radius:10px;cursor:pointer;font-size:12px}
+.g-prog-wrap{margin-bottom:16px}
+.g-prog-txt{display:flex;justify-content:space-between;color:#94a3b8;font-size:11px;margin-bottom:5px}
+.g-prog-bar{width:100%;height:5px;background:#1e293b;border-radius:3px;overflow:hidden}
+.g-prog-fill{height:100%;background:linear-gradient(90deg,#3b82f6,#8b5cf6);transition:width .4s}
+.g-stats{display:flex;gap:10px;margin-bottom:16px}
+.g-stat{flex:1;background:#1e293b;border-radius:10px;padding:9px;text-align:center}
+.g-stat .gsl{color:#94a3b8;font-size:9px;text-transform:uppercase;letter-spacing:1px}
+.g-stat .gsv{color:#fff;font-size:18px;font-weight:800}
+.g-stat.c-box{border:1px solid #10b981}.g-stat.c-box .gsv{color:#10b981}
+.g-stat.w-box{border:1px solid #ef4444}.g-stat.w-box .gsv{color:#ef4444}
+.g-stat.s-box{border:1px solid #f59e0b}.g-stat.s-box .gsv{color:#f59e0b}
+.g-qcard{background:#1e293b;border-radius:16px;padding:24px;margin-bottom:16px;border:1px solid #334155}
+.g-qnum{color:#60a5fa;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.g-qtext{color:#f1f5f9;font-size:17px;font-weight:600;line-height:1.6;margin-bottom:20px}
+.g-opts{display:flex;flex-direction:column;gap:10px}
+.g-opt{background:#0f172a;border:2px solid #334155;border-radius:12px;padding:13px 18px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;color:#cbd5e1;font-size:14px;font-weight:500}
+.g-opt:hover:not(.locked){border-color:#60a5fa;background:#1e293b;color:#fff;transform:translateX(4px)}
+.g-opt .ol{width:30px;height:30px;background:#1e293b;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;color:#60a5fa;flex-shrink:0}
+.g-opt.correct{border-color:#10b981;background:rgba(16,185,129,.15);color:#fff}
+.g-opt.correct .ol{background:#10b981;color:#fff}
+.g-opt.wrong{border-color:#ef4444;background:rgba(239,68,68,.15);color:#fff}
+.g-opt.wrong .ol{background:#ef4444;color:#fff}
+.g-opt.locked{cursor:not-allowed}
+.g-fb{display:none;text-align:center;padding:13px;border-radius:10px;margin-bottom:12px;font-size:14px;font-weight:700}
+.g-fb.on{display:block}
+.g-fb.cf{background:rgba(16,185,129,.2);color:#34d399;border:1px solid #10b981}
+.g-fb.wf{background:rgba(239,68,68,.2);color:#f87171;border:1px solid #ef4444}
+.g-next{display:none;width:100%;padding:13px;background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px}
+.g-next.on{display:block}
+.s-popup{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0);background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;padding:18px 36px;border-radius:20px;font-size:22px;font-weight:800;z-index:1000;text-align:center;transition:all .3s;pointer-events:none}
+.s-popup.on{transform:translate(-50%,-50%) scale(1)}
+.g-result{display:none;flex-direction:column;align-items:center;min-height:calc(100vh - 70px);padding:28px 20px}
+.g-result.on{display:flex}
+.r-trophy{font-size:76px;margin-bottom:8px;animation:bounce 1s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.r-title{color:#fff;font-size:28px;font-weight:800;margin-bottom:6px;text-align:center}
+.r-sub{color:#94a3b8;font-size:14px;margin-bottom:26px;text-align:center}
+.r-circle{width:150px;height:150px;border-radius:50%;background:conic-gradient(#3b82f6 0%, #3b82f6 var(--p), #1e293b var(--p), #1e293b 100%);display:flex;align-items:center;justify-content:center;margin-bottom:26px}
+.r-inner{width:120px;height:120px;background:#0f172a;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.r-inner .bn{color:#fff;font-size:32px;font-weight:800}
+.r-inner .st{color:#94a3b8;font-size:11px}
+.r-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:13px;width:100%;max-width:480px;margin-bottom:24px}
+.r-box{background:#1e293b;border-radius:12px;padding:16px;text-align:center;border:1px solid #334155}
+.r-box .rl{color:#94a3b8;font-size:10px;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
+.r-box .rv{font-size:24px;font-weight:800}
+.r-box.rc .rv{color:#10b981}.r-box.rw .rv{color:#ef4444}.r-box.ra .rv{color:#60a5fa}.r-box.rs .rv{color:#f59e0b}
+.r-grade{background:#1e293b;border-radius:12px;padding:14px 28px;margin-bottom:22px;text-align:center;border:1px solid #334155}
+.r-grade .rgl{color:#94a3b8;font-size:11px;margin-bottom:3px}
+.r-grade .rgv{font-size:20px;font-weight:800}
+.r-btns{display:flex;gap:10px;width:100%;max-width:480px;flex-wrap:wrap}
+.rb{flex:1;min-width:120px;padding:13px;border:none;border-radius:12px;font-size:13px;font-weight:700;cursor:pointer;transition:.3s}
+.rb.retry{background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff}
+.rb.other{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+.rb.other:hover{color:#fff;border-color:#60a5fa}
+.rb.dash{background:#1e293b;color:#94a3b8;border:1px solid #334155}
+.rb.dash:hover{color:#fff;border-color:#10b981}
+</style>
+</head>
+<body>
+<nav>
+  <div class="container">
+    <div class="app-logo">📚 TNPSC Group 4</div>
+    <div style="display:flex;gap:8px">
+      <button class="nav-btn" onclick="goHome()">Home</button>
+      <button class="nav-btn logout" onclick="goHome()">Logout</button>
+    </div>
+  </div>
+</nav>
+
+<div class="page active" id="homePage">
+  <div class="home-wrap">
+    <div class="home-card">
+      <h1>TNPSC Group 4 Preparation</h1>
+      <p>Master Group 4 exam with game-style practice tests — 4 subjects × 25 questions!</p>
+      <button class="start-btn" onclick="goDash()">🚀 Start Preparation</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="dashPage">
+  <div class="db-header">
+    <div class="container">
+      <h1>TNPSC Group 4 Preparation Hub</h1>
+      <p>Complete guide to prepare for TNPSC Group 4 examination</p>
+    </div>
+  </div>
+  <div class="container">
+    <div class="h-sections">
+      <div class="sec">
+        <h2>📄 Previous Year Papers</h2>
+        <p>Understand exam pattern</p>
+        <div class="pgrid">
+          <div class="pi" onclick="alert('2014')"><div class="yr">2014</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2015')"><div class="yr">2015</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2016')"><div class="yr">2016</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2017')"><div class="yr">2017</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2018')"><div class="yr">2018</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2019')"><div class="yr">2019</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2020')"><div class="yr">2020</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2021')"><div class="yr">2021</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2022')"><div class="yr">2022</div><div class="ac">View</div></div>
+          <div class="pi" onclick="alert('2023')"><div class="yr">2023</div><div class="ac">View</div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <h2>📋 Exam Overview</h2>
+        <div class="ogrid">
+          <div class="oc"><div class="lbl">Mode</div><div class="val">Offline</div></div>
+          <div class="oc"><div class="lbl">Questions</div><div class="val">200</div></div>
+          <div class="oc"><div class="lbl">Total Marks</div><div class="val">300</div></div>
+          <div class="oc"><div class="lbl">Duration</div><div class="val">3 Hours</div></div>
+          <div class="oc"><div class="lbl">Negative Mark</div><div class="val">No</div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <h2>💼 Eligibility &amp; Job Details</h2>
+        <div style="overflow-x:auto;margin-top:10px">
+          <table style="width:100%;border-collapse:collapse;font-size:11px">
+            <thead><tr style="background:var(--primary);color:#fff">
+              <th style="padding:7px;border:1px solid var(--border);text-align:left">Post</th>
+              <th style="padding:7px;border:1px solid var(--border)">Education</th>
+              <th style="padding:7px;border:1px solid var(--border);text-align:center">Age</th>
+              <th style="padding:7px;border:1px solid var(--border);text-align:center">Salary (₹)</th>
+            </tr></thead>
+            <tbody>
+              <tr style="background:#fff"><td style="padding:6px 7px;border:1px solid var(--border);font-weight:600">VAO</td><td style="padding:6px 7px;border:1px solid var(--border)">10th Pass</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">21–32</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">19,500–71,900</td></tr>
+              <tr style="background:var(--bg-light)"><td style="padding:6px 7px;border:1px solid var(--border);font-weight:600">Jr. Assistant</td><td style="padding:6px 7px;border:1px solid var(--border)">10th Pass</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">18–32</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">19,500–71,900</td></tr>
+              <tr style="background:#fff"><td style="padding:6px 7px;border:1px solid var(--border);font-weight:600">Typist</td><td style="padding:6px 7px;border:1px solid var(--border)">10th+Typing</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">18–32</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">19,500–62,000</td></tr>
+              <tr style="background:var(--bg-light)"><td style="padding:6px 7px;border:1px solid var(--border);font-weight:600">Steno Typist</td><td style="padding:6px 7px;border:1px solid var(--border)">10th+Steno+PC</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">18–32</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">20,600–75,900</td></tr>
+              <tr style="background:#fff"><td style="padding:6px 7px;border:1px solid var(--border);font-weight:600">Forest Watcher</td><td style="padding:6px 7px;border:1px solid var(--border)">10th Pass</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">21–32</td><td style="padding:6px 7px;border:1px solid var(--border);text-align:center">16,600–57,900</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="sec">
+        <h2>📚 Detailed Syllabus</h2>
+        <div class="acc">
+          <div class="ai"><div class="ah" onclick="tog(this)"><span>Paper 1: General Tamil</span><span>▼</span></div><div class="ac-body"><ul><li>Grammar &amp; Parts of Speech</li><li>Comprehension</li><li>Vocabulary &amp; Synonyms</li><li>Tamil Literature</li><li>Translation</li></ul></div></div>
+          <div class="ai"><div class="ah" onclick="tog(this)"><span>Paper 2: General English</span><span>▼</span></div><div class="ac-body"><ul><li>Grammar &amp; Tenses</li><li>Comprehension</li><li>Vocabulary</li><li>Fill in the Blanks</li><li>Error Correction</li></ul></div></div>
+          <div class="ai"><div class="ah" onclick="tog(this)"><span>Paper 3: General Studies</span><span>▼</span></div><div class="ac-body"><ul><li>History – Ancient, Medieval, Modern</li><li>Geography</li><li>Polity &amp; Constitution</li><li>Economics</li><li>Science &amp; Technology</li></ul></div></div>
+          <div class="ai"><div class="ah" onclick="tog(this)"><span>Paper 4: Aptitude &amp; Mental Ability</span><span>▼</span></div><div class="ac-body"><ul><li>Simplification</li><li>Percentage &amp; Profit/Loss</li><li>Ratio &amp; Proportion</li><li>Time &amp; Work</li><li>Logical Reasoning</li></ul></div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <h2>📅 Study Plan</h2>
+        <div class="acc">
+          <div class="ai"><div class="ah" onclick="tog(this)"><span>3 Months Plan</span><span>▼</span></div><div class="ac-body"><ul><li>Month 1: Tamil &amp; GS basics</li><li>Month 2: English &amp; Aptitude</li><li>Month 3: Revision &amp; Tests</li></ul></div></div>
+          <div class="ai"><div class="ah" onclick="tog(this)"><span>6 Months Plan</span><span>▼</span></div><div class="ac-body"><ul><li>Months 1-2: Tamil &amp; English</li><li>Months 3-4: GS in detail</li><li>Month 5: Aptitude</li><li>Month 6: Mock Tests</li></ul></div></div>
+          <div class="ai"><div class="ah" onclick="tog(this)"><span>Daily Timetable</span><span>▼</span></div><div class="ac-body"><ul><li>Morning 6-9: New topics</li><li>Mid-day 10-12: Practice</li><li>Afternoon 3-5: Papers</li><li>Evening 6-8: Revision</li></ul></div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <h2>🎮 Practice Game Test</h2>
+        <p>Game-style — 4 subjects × 25 questions each!</p>
+        <div class="ti-grid">
+          <div class="ti-item"><div class="tl">Subjects</div><div class="tv">4</div></div>
+          <div class="ti-item"><div class="tl">Questions</div><div class="tv">25 each</div></div>
+          <div class="ti-item"><div class="tl">Timer</div><div class="tv">30 Min</div></div>
+          <div class="ti-item"><div class="tl">Mode</div><div class="tv">🎯 Game</div></div>
+        </div>
+        <button class="stbtn" onclick="goGame()">🚀 Start Game Test</button>
+      </div>
+      <div class="sec">
+        <h2>💡 Important Tips</h2>
+        <div class="ei" style="border-left-color:#f97316">⏱️ <strong>Time Management:</strong> Allocate specific time per section</div>
+        <div class="ei" style="border-left-color:#f97316">📝 <strong>Regular Practice:</strong> Solve previous year papers daily</div>
+        <div class="ei" style="border-left-color:#f97316">🔍 <strong>Weak Areas:</strong> Focus on weaker topics first</div>
+        <div class="ei" style="border-left-color:#f97316">🧪 <strong>Mock Tests:</strong> Take full-length tests weekly</div>
+        <div class="ei" style="border-left-color:#f97316">📰 <strong>Current Affairs:</strong> Read news daily</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="gamePage">
+  <div class="ss-wrap" id="ssWrap">
+    <h2>🎮 Choose Your Subject</h2>
+    <p>Select a subject — 25 questions — 30 minutes!</p>
+    <div class="s-cards">
+      <div class="s-card tamil" onclick="startTest('tamil')">
+        <div class="si">🔤</div><div class="sn">General Tamil</div>
+        <div class="sd">Grammar, Literature, Vocabulary</div>
+        <div class="sb">25 Questions · 30 Min</div>
+      </div>
+      <div class="s-card english" onclick="startTest('english')">
+        <div class="si">📖</div><div class="sn">General English</div>
+        <div class="sd">Grammar, Comprehension, Vocabulary</div>
+        <div class="sb">25 Questions · 30 Min</div>
+      </div>
+      <div class="s-card gs" onclick="startTest('gs')">
+        <div class="si">🌍</div><div class="sn">General Studies</div>
+        <div class="sd">History, Geography, Science, Polity</div>
+        <div class="sb">25 Questions · 30 Min</div>
+      </div>
+      <div class="s-card aptitude" onclick="startTest('aptitude')">
+        <div class="si">🧮</div><div class="sn">Aptitude &amp; Mental</div>
+        <div class="sd">Maths, Reasoning, Puzzles</div>
+        <div class="sb">25 Questions · 30 Min</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g-screen" id="quizScreen">
+    <div class="container" style="max-width:680px;width:100%;margin:0 auto">
+      <div class="g-topbar">
+        <div class="g-badge" id="gBadge">🔤 General Tamil</div>
+        <div class="g-timer-box"><div class="g-tlbl">Time Left</div><div class="g-tval" id="gTimer">30:00</div></div>
+        <button class="g-quit" onclick="quitG()">✕ Quit</button>
+      </div>
+      <div class="g-prog-wrap">
+        <div class="g-prog-txt"><span id="gProgTxt">Question 1 of 25</span><span id="gProgPct">0%</span></div>
+        <div class="g-prog-bar"><div class="g-prog-fill" id="gProgFill" style="width:0%"></div></div>
+      </div>
+      <div class="g-stats">
+        <div class="g-stat c-box"><div class="gsl">✅ Correct</div><div class="gsv" id="gC">0</div></div>
+        <div class="g-stat w-box"><div class="gsl">❌ Wrong</div><div class="gsv" id="gW">0</div></div>
+        <div class="g-stat s-box"><div class="gsl">🔥 Streak</div><div class="gsv" id="gS">0</div></div>
+      </div>
+      <div class="g-qcard">
+        <div class="g-qnum" id="gQNum">QUESTION 1 OF 25</div>
+        <div class="g-qtext" id="gQText">Loading...</div>
+        <div class="g-opts" id="gOpts"></div>
+      </div>
+      <div class="g-fb" id="gFb"></div>
+      <button class="g-next" id="gNext" onclick="nextQ()">Next Question →</button>
+    </div>
+  </div>
+
+  <div class="g-result" id="gResult">
+    <div class="r-trophy" id="rTrophy">🏆</div>
+    <div class="r-title" id="rTitle">Excellent!</div>
+    <div class="r-sub" id="rSub">You completed General Tamil</div>
+    <div class="r-circle" id="rCircle" style="--p:0%">
+      <div class="r-inner"><div class="bn" id="rScore">0/25</div><div class="st">Score</div></div>
+    </div>
+    <div class="r-grid">
+      <div class="r-box rc"><div class="rl">✅ Correct</div><div class="rv" id="rC">0</div></div>
+      <div class="r-box rw"><div class="rl">❌ Wrong</div><div class="rv" id="rW">0</div></div>
+      <div class="r-box ra"><div class="rl">🎯 Accuracy</div><div class="rv" id="rA">0%</div></div>
+      <div class="r-box rs"><div class="rl">🔥 Best Streak</div><div class="rv" id="rSt">0</div></div>
+    </div>
+    <div class="r-grade"><div class="rgl">Performance Grade</div><div class="rgv" id="rGrade">-</div></div>
+    <div class="r-btns">
+      <button class="rb retry" onclick="retryT()">🔄 Retry</button>
+      <button class="rb other" onclick="goGame()">📚 Other Subject</button>
+      <button class="rb dash" onclick="goDash()">🏠 Dashboard</button>
+    </div>
+  </div>
+</div>
+
+<div class="s-popup" id="sPop">🔥 <span id="sNum">3</span> Streak!</div>
+
+<script>
+const QB={
+tamil:[
+  {q:"'அன்னை' என்பதன் பொருள் என்ன?",o:["தந்தை","அம்மா","அக்கா","தம்பி"],a:1},
+  {q:"'வானம்' என்ற சொல்லின் ஆங்கில மொழிபெயர்ப்பு?",o:["Earth","Water","Sky","Fire"],a:2},
+  {q:"உயிர் எழுத்துக்கள் எத்தனை?",o:["10","12","16","18"],a:1},
+  {q:"'திருக்குறள்' இயற்றியவர் யார்?",o:["இளங்கோவடிகள்","திருவள்ளுவர்","கம்பர்","சுந்தரர்"],a:1},
+  {q:"'மலர்' என்பதன் எதிர்ச்சொல்?",o:["மொட்டு","இலை","கொடி","மரம்"],a:0},
+  {q:"மெய் எழுத்துக்கள் எத்தனை?",o:["16","18","12","10"],a:1},
+  {q:"'ஒற்றுமை' என்பதன் இணைச்சொல்?",o:["பிரிவு","ஒருமை","ஐக்கியம்","போட்டி"],a:2},
+  {q:"'சிலப்பதிகாரம்' இயற்றியவர்?",o:["திருவள்ளுவர்","இளங்கோவடிகள்","கம்பர்","அவ்வையார்"],a:1},
+  {q:"'மகிழ்ச்சி' எதிர்ச்சொல்?",o:["சந்தோஷம்","துக்கம்","நலம்","அமைதி"],a:1},
+  {q:"திருக்குறளில் எத்தனை குறள்கள்?",o:["1000","1300","1330","1500"],a:2},
+  {q:"'நெல்லிருந்து கிடைக்கும் உணவு?",o:["மாவு","அரிசி","கோதுமை","தினை"],a:1},
+  {q:"'பசி' எதிர்ச்சொல்?",o:["தாகம்","திருப்தி","உணவு","வயிறு"],a:1},
+  {q:"'கவிதை' ஆங்கில வடிவம்?",o:["Story","Poem","Drama","Novel"],a:1},
+  {q:"'செந்தமிழ்' என்றால் என்ன?",o:["புதிய தமிழ்","நாட்டார் தமிழ்","செம்மையான தமிழ்","கலவை தமிழ்"],a:2},
+  {q:"ஆய்த எழுத்துக்கள் எத்தனை?",o:["1","2","3","0"],a:0},
+  {q:"'ஆசிரியர்' எதிர்ச்சொல்?",o:["மாணவர்","பெற்றோர்","தலைவர்","அரசர்"],a:0},
+  {q:"'கம்பராமாயணம்' இயற்றியவர்?",o:["வால்மீகி","கம்பர்","திருவள்ளுவர்","இளங்கோ"],a:1},
+  {q:"'நாடு' பன்மை?",o:["நாட்கள்","நாடுகள்","நாடுகல்","நாட்டினர்"],a:1},
+  {q:"'படிக்கிறான்' எந்த வகை வினை?",o:["தன்வினை","பிறவினை","செய்வினை","செயப்பாட்டுவினை"],a:2},
+  {q:"தமிழ் எழுத்துகளின் மொத்த எண்ணிக்கை?",o:["216","247","256","300"],a:1},
+  {q:"'இன்பம்' எதிர்ச்சொல்?",o:["சுகம்","துன்பம்","நலம்","மகிழ்வு"],a:1},
+  {q:"'அவ்வையார்' எந்த காலத்தைச் சார்ந்தவர்?",o:["சங்க காலம்","மத்திய காலம்","நவீன காலம்","இக்காலம்"],a:0},
+  {q:"'மழை' ஆங்கில பொருள்?",o:["Sunshine","Wind","Rain","Cloud"],a:2},
+  {q:"'கண்' எந்த வகை சொல்?",o:["வினைச்சொல்","பெயர்ச்சொல்","இடைச்சொல்","உரிச்சொல்"],a:1},
+  {q:"'அம்மா, அப்பா' எந்த வகை சொற்கள்?",o:["செயற்கைப் பெயர்","உறவுப் பெயர்","இடப்பெயர்","காலப்பெயர்"],a:1}
+],
+english:[
+  {q:"Synonym for 'Happy':",o:["Sad","Joyful","Angry","Tired"],a:1},
+  {q:"'She ___ to school every day.'",o:["go","goes","went","gone"],a:1},
+  {q:"Plural of 'Child'?",o:["Childs","Children","Childrens","Child"],a:1},
+  {q:"Antonym of 'Beautiful':",o:["Pretty","Lovely","Ugly","Charming"],a:2},
+  {q:"'I have been working here ___ 5 years.'",o:["since","for","from","at"],a:1},
+  {q:"Passive voice of 'Ram writes a letter':",o:["A letter is written by Ram","A letter was written","Ram wrote a letter","A letter writes Ram"],a:0},
+  {q:"Correct sentence?",o:["She don't like coffee","She doesn't likes coffee","She doesn't like coffee","She not like coffee"],a:2},
+  {q:"Correct spelling?",o:["Accomodation","Accommodation","Acommodation","Acomodation"],a:1},
+  {q:"Type of noun — 'Honesty'?",o:["Proper","Common","Abstract","Collective"],a:2},
+  {q:"'___ apple a day keeps the doctor away.'",o:["A","An","The","No article"],a:1},
+  {q:"Comparative degree of 'Good':",o:["Gooder","More good","Better","Best"],a:2},
+  {q:"Question tag: 'She is clever, ___?'",o:["isn't she","is she","wasn't she","doesn't she"],a:0},
+  {q:"Meaning of 'Benevolent'?",o:["Cruel","Kind-hearted","Selfish","Angry"],a:1},
+  {q:"'He is poor ___ honest.'",o:["but","or","so","for"],a:0},
+  {q:"Meaning of 'Enormous'?",o:["Small","Tiny","Huge","Thin"],a:2},
+  {q:"Correct sentence?",o:["I seen him yesterday","I have saw him","I saw him yesterday","I have see him"],a:2},
+  {q:"'He speaks English ___.' (adverb form)",o:["fluent","fluently","fluence","fluention"],a:1},
+  {q:"Compound sentence?",o:["She sings.","She sings and dances.","She sings because she's happy.","The girl who sings."],a:1},
+  {q:"One word for 'One who loves books':",o:["Bibliophile","Philanthropist","Bibliophobe","Scholar"],a:0},
+  {q:"Indirect speech: He said, 'I am happy.'",o:["He said he is happy","He said he was happy","He said I am happy","He told I was happy"],a:1},
+  {q:"'They ___ playing when it rained.'",o:["are","were","was","is"],a:1},
+  {q:"Subject in: 'The Sun rises in the East.'",o:["Sun","Rises","East","The"],a:0},
+  {q:"Meaning of 'Diligent':",o:["Lazy","Careless","Hardworking","Rude"],a:2},
+  {q:"Misspelled word?",o:["Necessary","Separately","Occurance","Occurred"],a:2},
+  {q:"'Neither he nor she ___ wrong.'",o:["are","were","is","be"],a:2}
+],
+gs:[
+  {q:"The President of India is elected for:",o:["4 years","5 years","6 years","3 years"],a:1},
+  {q:"Largest planet in solar system?",o:["Saturn","Mars","Jupiter","Neptune"],a:2},
+  {q:"Indian Constitution was adopted on:",o:["15-Aug-1947","26-Jan-1950","26-Nov-1949","2-Oct-1950"],a:2},
+  {q:"Longest river in India?",o:["Brahmaputra","Godavari","Yamuna","Ganges"],a:3},
+  {q:"Who wrote the Indian National Anthem?",o:["Bankim Chandra","Mahatma Gandhi","Rabindranath Tagore","Nehru"],a:2},
+  {q:"Capital of Tamil Nadu?",o:["Coimbatore","Madurai","Chennai","Trichy"],a:2},
+  {q:"Gas plants release during photosynthesis?",o:["Carbon Dioxide","Nitrogen","Oxygen","Hydrogen"],a:2},
+  {q:"First Prime Minister of India?",o:["Sardar Patel","B.R. Ambedkar","Rajendra Prasad","Jawaharlal Nehru"],a:3},
+  {q:"Red Planet?",o:["Venus","Mars","Jupiter","Saturn"],a:1},
+  {q:"Palk Strait separates India from?",o:["Pakistan","Bangladesh","Myanmar","Sri Lanka"],a:3},
+  {q:"Currency of Japan?",o:["Yuan","Won","Yen","Ringgit"],a:2},
+  {q:"Battle of Plassey was fought in?",o:["1757","1857","1947","1764"],a:0},
+  {q:"Organ that purifies blood?",o:["Heart","Lungs","Kidney","Liver"],a:2},
+  {q:"Rajya Sabha is also known as?",o:["House of People","Council of States","Legislative Assembly","Cabinet"],a:1},
+  {q:"Photosynthesis takes place in?",o:["Root","Flower","Leaf","Stem"],a:2},
+  {q:"Smallest continent?",o:["Antarctica","Europe","Australia","South America"],a:2},
+  {q:"Chemical formula of water?",o:["CO2","H2O","NaCl","O2"],a:1},
+  {q:"States in India (2024)?",o:["28","29","30","27"],a:0},
+  {q:"Speed of light?",o:["3×10⁶ m/s","3×10⁸ m/s","3×10⁵ m/s","3×10¹⁰ m/s"],a:1},
+  {q:"ISRO full form?",o:["Indian Space Research Organisation","Indian Science Research Office","Indian Satellite Research Org","Indian Space Resource Org"],a:0},
+  {q:"Article that abolishes untouchability?",o:["Article 14","Article 15","Article 17","Article 21"],a:2},
+  {q:"'Spice Garden of India'?",o:["Tamil Nadu","Goa","Kerala","Karnataka"],a:2},
+  {q:"Who invented the telephone?",o:["Thomas Edison","Alexander Graham Bell","Nikola Tesla","Marconi"],a:1},
+  {q:"Capital of India?",o:["Mumbai","Kolkata","Chennai","New Delhi"],a:3},
+  {q:"Fundamental Rights are in which Part?",o:["Part I","Part II","Part III","Part IV"],a:2}
+],
+aptitude:[
+  {q:"25% of 200?",o:["25","50","75","100"],a:1},
+  {q:"Square root of 144?",o:["10","12","14","16"],a:1},
+  {q:"15 × 8 = ?",o:["100","110","120","130"],a:2},
+  {q:"Train @ 60 km/h — distance in 2.5 hours?",o:["120 km","135 km","150 km","180 km"],a:2},
+  {q:"Buy ₹80, sell ₹100. Profit %?",o:["20%","25%","30%","15%"],a:1},
+  {q:"Next: 2, 4, 8, 16, ___",o:["24","30","32","36"],a:2},
+  {q:"5 workers = 10 days. 10 workers = ?",o:["10 days","15 days","5 days","20 days"],a:2},
+  {q:"30% of 500?",o:["100","150","200","120"],a:1},
+  {q:"A + B finish in 10 & 15 days. Together?",o:["5 days","6 days","8 days","12 days"],a:1},
+  {q:"Odd one out: 2, 3, 5, 7, 9, 11",o:["2","3","9","11"],a:2},
+  {q:"A > B > C in height. Shortest?",o:["A","B","C","Cannot determine"],a:2},
+  {q:"20% of 350?",o:["60","65","70","75"],a:2},
+  {q:"3:5 equivalent ratio?",o:["6:8","9:15","12:18","15:20"],a:1},
+  {q:"Next: 1, 4, 9, 16, 25, ___",o:["30","35","36","40"],a:2},
+  {q:"Average of 10,20,30,40,50?",o:["25","30","35","40"],a:1},
+  {q:"6th from left, 4th from right. Total?",o:["8","9","10","11"],a:1},
+  {q:"3x = 24, x = ?",o:["6","7","8","9"],a:2},
+  {q:"Divisible by 4 and 6?",o:["14","18","20","24"],a:3},
+  {q:"SI on ₹1000 @ 10% for 2 years?",o:["₹100","₹200","₹150","₹250"],a:1},
+  {q:"Next: 3, 6, 12, 24, ___",o:["36","42","48","54"],a:2},
+  {q:"Clock 3:00 — angle between hands?",o:["45°","60°","90°","120°"],a:2},
+  {q:"Pipe fills in 6h, empties in 8h. Net?",o:["12 hrs","24 hrs","18 hrs","20 hrs"],a:1},
+  {q:"CAT = 3-1-20, DOG = ?",o:["4-15-7","4-14-7","5-15-7","4-15-8"],a:0},
+  {q:"200m train passes pole in 20s. Speed?",o:["10 m/s","20 m/s","15 m/s","25 m/s"],a:0},
+  {q:"LCM of 4 and 6?",o:["8","12","24","6"],a:1}
+]};
+
+const SI={tamil:{name:'General Tamil',icon:'🔤'},english:{name:'General English',icon:'📖'},gs:{name:'General Studies',icon:'🌍'},aptitude:{name:'Aptitude & Mental Ability',icon:'🧮'}};
+let G={sub:'',qs:[],cur:0,cor:0,wrg:0,str:0,bstr:0,done:false,tim:null,tl:1800};
+
+function sp(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+function goHome(){sp('homePage')}
+function goDash(){sp('dashPage')}
+function goGame(){sp('gamePage');document.getElementById('ssWrap').style.display='flex';document.getElementById('quizScreen').classList.remove('on');document.getElementById('gResult').classList.remove('on')}
+function tog(h){const i=h.parentElement,a=i.classList.contains('open');document.querySelectorAll('.ai').forEach(x=>x.classList.remove('open'));if(!a)i.classList.add('open')}
+
+function startTest(sub){
+  G.sub=sub;G.qs=[...QB[sub]].sort(()=>Math.random()-.5);
+  G.cur=0;G.cor=0;G.wrg=0;G.str=0;G.bstr=0;G.done=false;G.tl=1800;
+  document.getElementById('ssWrap').style.display='none';
+  document.getElementById('gResult').classList.remove('on');
+  document.getElementById('quizScreen').classList.add('on');
+  document.getElementById('gBadge').textContent=SI[sub].icon+' '+SI[sub].name;
+  clearInterval(G.tim);
+  G.tim=setInterval(()=>{
+    G.tl--;
+    const m=Math.floor(G.tl/60),s=G.tl%60;
+    const el=document.getElementById('gTimer');
+    el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(G.tl<=60)el.classList.add('warn');
+    if(G.tl<=0){clearInterval(G.tim);showResult();}
+  },1000);
+  renderQ();
+}
+
+function renderQ(){
+  const q=G.qs[G.cur],tot=25,cur=G.cur+1,pct=Math.round(((cur-1)/tot)*100);
+  document.getElementById('gQNum').textContent='QUESTION '+cur+' OF '+tot;
+  document.getElementById('gQText').textContent=q.q;
+  document.getElementById('gProgTxt').textContent='Question '+cur+' of '+tot;
+  document.getElementById('gProgPct').textContent=pct+'%';
+  document.getElementById('gProgFill').style.width=pct+'%';
+  document.getElementById('gC').textContent=G.cor;
+  document.getElementById('gW').textContent=G.wrg;
+  document.getElementById('gS').textContent=G.str;
+  const L=['A','B','C','D'],opts=document.getElementById('gOpts');
+  opts.innerHTML='';
+  q.o.forEach((opt,i)=>{
+    const d=document.createElement('div');d.className='g-opt';
+    d.innerHTML='<span class="ol">'+L[i]+'</span><span>'+opt+'</span>';
+    d.onclick=()=>pickA(i);opts.appendChild(d);
+  });
+  document.getElementById('gFb').className='g-fb';
+  document.getElementById('gNext').className='g-next';
+  G.done=false;
+}
+
+function pickA(idx){
+  if(G.done)return;G.done=true;
+  const q=G.qs[G.cur];
+  document.querySelectorAll('.g-opt').forEach(o=>o.classList.add('locked'));
+  const fb=document.getElementById('gFb');
+  if(idx===q.a){
+    document.querySelectorAll('.g-opt')[idx].classList.add('correct');
+    G.cor++;G.str++;if(G.str>G.bstr)G.bstr=G.str;
+    fb.textContent='✅ Correct! Well done!';fb.className='g-fb cf on';
+    if(G.str>=3)showStreak(G.str);
+  } else {
+    document.querySelectorAll('.g-opt')[idx].classList.add('wrong');
+    document.querySelectorAll('.g-opt')[q.a].classList.add('correct');
+    G.wrg++;G.str=0;
+    fb.textContent='❌ Wrong! Correct answer is highlighted.';fb.className='g-fb wf on';
+  }
+  document.getElementById('gC').textContent=G.cor;document.getElementById('gW').textContent=G.wrg;document.getElementById('gS').textContent=G.str;
+  document.getElementById('gNext').className='g-next on';
+}
+
+function nextQ(){G.cur++;if(G.cur>=25){clearInterval(G.tim);showResult();}else renderQ();}
+function quitG(){if(confirm('Quit this test?')){clearInterval(G.tim);goGame();}}
+
+function showStreak(n){const p=document.getElementById('sPop');document.getElementById('sNum').textContent=n;p.classList.add('on');setTimeout(()=>p.classList.remove('on'),1500);}
+
+function showResult(){
+  document.getElementById('quizScreen').classList.remove('on');
+  const cor=G.cor,tot=25,acc=Math.round((cor/tot)*100),info=SI[G.sub];
+  let t,ti,gc;
+  if(acc>=90){t='🏆';ti='Outstanding! Champion!';gc='#10b981';}
+  else if(acc>=75){t='🥇';ti='Excellent!';gc='#3b82f6';}
+  else if(acc>=60){t='🥈';ti='Good Job!';gc='#f59e0b';}
+  else if(acc>=40){t='🥉';ti='Keep Practicing!';gc='#f97316';}
+  else{t='📚';ti='Study More & Retry!';gc='#ef4444';}
+  let g=acc>=90?'⭐ A+ — Expert':acc>=75?'🌟 A — Excellent':acc>=60?'✨ B — Good':acc>=40?'📝 C — Average':'📖 D — Needs Study';
+  document.getElementById('rTrophy').textContent=t;
+  document.getElementById('rTitle').textContent=ti;
+  document.getElementById('rSub').textContent=info.icon+' '+info.name+' — '+acc+'% accuracy';
+  document.getElementById('rScore').textContent=cor+'/'+tot;
+  document.getElementById('rC').textContent=cor;
+  document.getElementById('rW').textContent=tot-cor;
+  document.getElementById('rA').textContent=acc+'%';
+  document.getElementById('rSt').textContent=G.bstr;
+  document.getElementById('rGrade').textContent=g;
+  document.getElementById('rGrade').style.color=gc;
+  document.getElementById('rCircle').style.setProperty('--p',(cor/tot*100)+'%');
+  document.getElementById('gResult').classList.add('on');
+  window.scrollTo(0,0);
+}
+function retryT(){startTest(G.sub);}
+</script>
+</body>
+</html>
